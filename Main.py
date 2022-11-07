@@ -1,44 +1,32 @@
-
 from typing import List
 
-def merge(left_array: List[int], m: int, right_array: List[int], n: int) -> None:
-  # Write code here
-  left_array= left_array[:m]
-  right_array= right_array[:n]
-  data=left_array + right_array
-  i=0
-  j=0
-  k=0
-
-  while i < len(left_array) and j < len(right_array):
-    if left_array[i] <= right_array[j]:
-      data[k] = left_array[i]
-      i += 1
-    else:
-      data[k] = right_array[j]
-      j += 1
-    k += 1
-
-  while i < len(left_array):
-    data[k] = left_array[i]
-    i += 1
-    k += 1
-
-  while j < len(right_array):
-     data[k]=right_array[j]
-     j += 1
-     k += 1
-  print(data)
+def partition(arr,low,high):
+   i = ( low-1 )
+   pivot = arr[high] # pivot element
+   for j in range(low , high):
+      # If current element is smaller
+      if arr[j] <= pivot:
+         # increment
+         i = i+1
+         arr[i],arr[j] = arr[j],arr[i]
+   arr[i+1],arr[high] = arr[high],arr[i+1]
+   return ( i+1 )
+# sort
+def quick_sort(arr,low,high):
+   if low < high:
+      # index
+      pi = partition(arr,low,high)
+      # sort the partitions
+      quick_sort(arr, low, pi-1)
+      quick_sort(arr, pi+1, high)
+   return arr
 
 
-
-# Do not change the following code
-nums1 = []
-nums2 = []
-for item in input().split(', '):
-  nums1.append(int(item))
-for item in input().split(', '):
-  nums2.append(int(item))
-m = int(input())
-n = int(input())
-merge(nums1, m, nums2, n)
+input_data = input()
+data = []
+for item in input_data.split(', '):
+  if item.isnumeric():
+    data.append(int(item))
+  elif item.lstrip("-").isnumeric():
+    data.append(int(item))
+print(quick_sort(data, 0, len(data)-1))
